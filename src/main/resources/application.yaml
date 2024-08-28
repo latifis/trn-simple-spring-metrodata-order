@@ -4,6 +4,8 @@ server:
     context-path: /api/v1
 
 spring:
+  application:
+    name: ORDER-SERVICE
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:5432/order_service_db
     username: postgres
@@ -18,3 +20,13 @@ spring:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://${EUREKA_SERVER_ADDRESS:localhost}:8761/eureka
