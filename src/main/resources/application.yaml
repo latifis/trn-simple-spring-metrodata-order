@@ -20,13 +20,20 @@ spring:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/ACC-Brijalan-Training/config-api.git
+          clone-on-start: true
+          default-label: main
 
 
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    serviceUrl:
-      defaultZone: http://${EUREKA_SERVER_ADDRESS:localhost}:8761/eureka
+#eureka:
+#  instance:
+#    prefer-ip-address: true
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    serviceUrl:
+#      defaultZone: http://${EUREKA_SERVER_ADDRESS:localhost}:8761/eureka
