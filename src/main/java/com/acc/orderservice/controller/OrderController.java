@@ -20,7 +20,7 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping
-    public ResponseEntity<APIResponse<List<Order>>> getAllOrder() {
+    public ResponseEntity<APIResponse<List<OrderResponse>>> getAllOrder() {
         return ResponseEntity.ok(orderService.findAllOrder());
     }
 
