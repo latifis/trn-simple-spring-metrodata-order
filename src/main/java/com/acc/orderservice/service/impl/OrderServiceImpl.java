@@ -12,6 +12,7 @@ import com.acc.orderservice.util.ObjectValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -47,6 +48,8 @@ public class OrderServiceImpl implements OrderService {
             return orderMapper.mapErrorToApiResponseDto(validate);
         }
         Order order = orderMapper.requestDtoToModel(orderRequest);
+        order.setStatus("CREATE");
+        order.setDate(Instant.now());
         return orderMapper.mapToApiResponseDto(
                 orderRepository.save(order)
         );
@@ -62,6 +65,8 @@ public class OrderServiceImpl implements OrderService {
 
         findOrderById(id);
         Order order = orderMapper.requestDtoToModel(orderRequest);
+        order.setStatus("UPDATED");
+        order.setDate(Instant.now());
 
         order.setId(id);  // agar bisa update
         return orderMapper.mapToApiResponseDto(
