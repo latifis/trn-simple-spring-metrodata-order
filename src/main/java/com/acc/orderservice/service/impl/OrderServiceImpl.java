@@ -5,6 +5,7 @@ import com.acc.orderservice.exception.CustomException;
 import com.acc.orderservice.model.APIResponse;
 import com.acc.orderservice.model.mapper.OrderMapper;
 import com.acc.orderservice.model.request.OrderRequest;
+import com.acc.orderservice.model.response.OrderResponse;
 import com.acc.orderservice.repository.OrderRepository;
 import com.acc.orderservice.service.OrderService;
 import com.acc.orderservice.util.ObjectValidator;
@@ -22,14 +23,14 @@ public class OrderServiceImpl implements OrderService {
     private final ObjectValidator<OrderRequest> objectValidator;
 
     @Override
-    public APIResponse findAllOrder() {
+    public APIResponse<List<OrderResponse>> findAllOrder() {
         return orderMapper.mapToApiResponseListDto(
                 orderRepository.findAll()
         );
     }
 
     @Override
-    public APIResponse findOrderById(Long id) {
+    public APIResponse<OrderResponse> findOrderById(Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new CustomException(
                         String.format("Order with give id: %s not found", id),
@@ -40,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public APIResponse addOrder(OrderRequest orderRequest) {
+    public APIResponse<OrderResponse> addOrder(OrderRequest orderRequest) {
         List<String> validate = objectValidator.validate(orderRequest);
         if (!validate.isEmpty()){
             return orderMapper.mapErrorToApiResponseDto(validate);
@@ -52,14 +53,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public APIResponse updateOrder(Long id, OrderRequest orderRequest) {
-        findOrderById(id);
+    public APIResponse<OrderResponse> updateOrder(Long id, OrderRequest orderRequest) {
 
         List<String> validate = objectValidator.validate(orderRequest);
         if (!validate.isEmpty()){
             return orderMapper.mapErrorToApiResponseDto(validate);
         }
 
+        findOrderById(id);
         Order order = orderMapper.requestDtoToModel(orderRequest);
 
         order.setId(id);  // agar bisa update
@@ -69,9 +70,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public APIResponse deleteOrder(Long id) {
-        APIResponse product = findOrderById(id);
+    public APIResponse<OrderResponse> deleteOrder(Long id) {
+        APIResponse<OrderResponse> order = findOrderById(id);
         orderRepository.deleteById(id);
-        return product;
+        return order;
     }
 }
