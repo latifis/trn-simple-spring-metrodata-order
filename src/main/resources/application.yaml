@@ -27,6 +27,15 @@ spring:
           uri: https://github.com/ACC-Brijalan-Training/config-api.git
           clone-on-start: true
           default-label: main
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      client-type: lettuce
+      connect-timeout: 10s
+      timeout: 5s
+      database: 0
+
 
 
 #eureka:
